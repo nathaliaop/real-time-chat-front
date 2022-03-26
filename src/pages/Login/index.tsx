@@ -6,7 +6,7 @@ import {
 } from './styles'
 import api from '../../services/api';
 import Input from '../../components/Input';
-import { TokenContext, useToken } from '../../context/TokenContext';
+import { useToken } from '../../context/TokenContext';
 
 const Login = () => {
     const [username, setUsername] = useState<string>('');
