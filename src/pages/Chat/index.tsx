@@ -9,7 +9,8 @@ import Input from '../../components/Input';
 
 import io from 'socket.io-client';
 import ChatMessage from '../../components/ChatMessage';
-import { TokenContext } from '../../context/TokenContext';
+import { TokenContext, useToken } from '../../context/TokenContext';
+import { useSocket } from '../../context/SocketContext';
 
 type Message = {
     createdAt: string,
@@ -23,30 +24,18 @@ type Payload = {
     text: string
 }
 
-const socketOptions = {
-    transportOptions: {
-        polling: {
-            extraHeaders: {
-                Authorization: 'Bearer ' + (sessionStorage.getItem('token') || ' 1')
-            }
-        }
-    }
-};
-
-const socket = io('http://localhost:5050', socketOptions);
-
 const Chat = () => {
     const [messages, setMessages] = useState<Message[]>([]);
     const [text, setText] = useState<string>('');
     const [loaded, setLoadead] = useState<boolean>(true);
-    const tokenContext = useContext(TokenContext);
+    const { socket } = useSocket();
+    const { token } = useToken();
 
     useEffect(() => {
         api.get('/messages',
           {
             headers: {
-              'Content-Type': 'application/json',
-              'Authorization': 'Bearer ' + (tokenContext ? tokenContext.token : '')//(sessionStorage.getItem('token') || ' 1')
+              'Authorization': 'Bearer ' + token
             }
           }
         ) 
