@@ -11,6 +11,12 @@ export const Container = styled.div`
     font-size: 12px;
 `;
 
+export const Content = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+`
+
 export const Form = styled.form`
     font-family: 'MontSerrat', sans-serif;
     display: flex;

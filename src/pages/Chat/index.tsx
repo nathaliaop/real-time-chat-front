@@ -1,6 +1,7 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import {
     Container,
+    Content,
     Form
 } from './styles'
 import api from '../../services/api';
@@ -8,6 +9,7 @@ import Input from '../../components/Input';
 
 import io from 'socket.io-client';
 import ChatMessage from '../../components/ChatMessage';
+import { TokenContext } from '../../context/TokenContext';
 
 type Message = {
     createdAt: string,
@@ -25,7 +27,7 @@ const socketOptions = {
     transportOptions: {
         polling: {
             extraHeaders: {
-                Authorization: 'Bearer ' + (sessionStorage.getItem('token') || '')
+                Authorization: 'Bearer ' + (sessionStorage.getItem('token') || ' 1')
             }
         }
     }
@@ -36,9 +38,18 @@ const socket = io('http://localhost:5050', socketOptions);
 const Chat = () => {
     const [messages, setMessages] = useState<Message[]>([]);
     const [text, setText] = useState<string>('');
+    const [loaded, setLoadead] = useState<boolean>(true);
+    const tokenContext = useContext(TokenContext);
 
     useEffect(() => {
-        api.get('/messages')
+        api.get('/messages',
+          {
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': 'Bearer ' + (tokenContext ? tokenContext.token : '')//(sessionStorage.getItem('token') || ' 1')
+            }
+          }
+        ) 
           .then((response) => {
             const previousMessages: Message[] = response.data
             setMessages(previousMessages)
@@ -60,6 +71,7 @@ const Chat = () => {
         
         // Toda vez que alguem manda uma mensagem, atualiza o array de mensagens
         socket.on('msgToClient', (message: Message) => {
+          console.log(message);
           receivedMessage(message);
         })
       }, [messages]);
@@ -80,22 +92,25 @@ const Chat = () => {
       }
 
     return (
-        <>
+      loaded ? 
         <Container>
+          <Content>
             <Form>
-                <Input value={ text } onChange={ setText } placeholder='Message'/>
-                <button onClick={sendMessage}>Send</button>
-                {messages.map((message: Message, index: number) => (
+              {messages.map((message: Message, index: number) => (
                 <ChatMessage
                 key={index}
                 username={message.user.username}
                 text={message.text}
                 createdAt={message.createdAt}
                 />
-            ))}
-            </Form>
+              ))}
+                  <Input value={ text } onChange={ setText } placeholder='Message'/>
+                  <button onClick={sendMessage}>Send</button>
+              </Form>
+            </Content>
         </Container>
-        </>
+        :
+        <h1>Loading</h1>
     );
 }
 
