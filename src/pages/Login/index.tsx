@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
     Container,
@@ -6,14 +6,25 @@ import {
 } from './styles'
 import api from '../../services/api';
 import Input from '../../components/Input';
+import { TokenContext } from '../../context/TokenContext';
 
 const Login = () => {
     const [username, setUsername] = useState<string>('');
     const [email, setEmail] = useState<string>('');
     const [password, setPassword] = useState<string>('');
     const navigate = useNavigate();
-    
-    const signUp = (e: any) => {
+    const tokenContext = useContext(TokenContext);
+
+    useEffect(() => {
+        window.addEventListener('storage', function (e) {
+            console.log('oi')
+            if (e.storageArea === sessionStorage && e.key === 'token') {
+                navigate('/chat');
+            }
+        });
+    }, [])
+
+    const handleLogin = (e: any) => {
         e.preventDefault();
         api.post('/auth/signup', {
             username: username,
@@ -25,7 +36,7 @@ const Login = () => {
             setUsername('');
             setEmail('');
             setPassword('');
-            sessionStorage.setItem('token', loginDto.token);
+            if (tokenContext) tokenContext.setToken(loginDto.token);
             navigate('/chat');
         })
         .catch(error => {
@@ -37,11 +48,11 @@ const Login = () => {
     return (
         <>
         <Container>
-            <Form>
+            <Form onSubmit={ handleLogin }>
                 <Input value={ username } onChange={ setUsername } placeholder='Username' />
                 <Input value={ email } onChange={ setEmail } placeholder='Email' />
                 <Input value={ password } password onChange={ setPassword } placeholder='Password' />
-                <button onClick = {signUp}>Send</button>
+                <button type="submit">Send</button>
             </Form>
         </Container>
         </>
