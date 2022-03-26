@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
     Container,
@@ -6,14 +6,14 @@ import {
 } from './styles'
 import api from '../../services/api';
 import Input from '../../components/Input';
-import { TokenContext } from '../../context/TokenContext';
+import { TokenContext, useToken } from '../../context/TokenContext';
 
 const Login = () => {
     const [username, setUsername] = useState<string>('');
     const [email, setEmail] = useState<string>('');
     const [password, setPassword] = useState<string>('');
     const navigate = useNavigate();
-    const tokenContext = useContext(TokenContext);
+    const { setToken } = useToken();
 
     useEffect(() => {
         window.addEventListener('storage', function (e) {
@@ -36,7 +36,7 @@ const Login = () => {
             setUsername('');
             setEmail('');
             setPassword('');
-            if (tokenContext) tokenContext.setToken(loginDto.token);
+            setToken(loginDto.token);
             navigate('/chat');
         })
         .catch(error => {
