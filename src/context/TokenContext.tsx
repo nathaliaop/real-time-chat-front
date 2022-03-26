@@ -1,10 +1,9 @@
-import { createContext, useState } from 'react'
+import { createContext, useContext, useState } from 'react'
 
 type TokenContextType = {
   token: string;
   setToken: (token: string) => void;
 }
-
 
 export const TokenContext = createContext<TokenContextType | null>(null);
 
@@ -22,3 +21,9 @@ export const TokenProvider = ({ children } : any ) => {
     </TokenContext.Provider>
   )
 };
+
+export const useToken = () => {
+  const tokenContext = useContext(TokenContext);
+  if (!tokenContext) throw new Error('Token null');
+  return tokenContext;
+}
