@@ -1,9 +1,12 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { TokenProvider } from './context/TokenContext';
 import './index.css';
 import AllRoutes from './services/routes';
 
 ReactDOM.render(
-    <AllRoutes />,
+    <TokenProvider>
+        <AllRoutes />
+    </TokenProvider>,
     document.getElementById('root')
 );

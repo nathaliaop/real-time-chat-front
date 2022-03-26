@@ -3,7 +3,7 @@ import { Container } from './styles';
 const ChatMessage = ({ username, text, createdAt }: { username: string, text: string, createdAt: string }) => {
   return (
     <div>
-      <h3>{username}</h3>
+      <p>{username}</p>
       <p>{text}</p>
       <p>{createdAt}</p>
     </div>
