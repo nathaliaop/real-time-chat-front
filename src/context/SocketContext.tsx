@@ -1,6 +1,7 @@
-import { createContext, useContext, useState } from 'react'
+import { createContext, useContext } from 'react'
 import { io } from 'socket.io-client';
 import { useToken } from './TokenContext';
+import env from "react-dotenv";
 
 type SocketContextType = {
   socket: any;
@@ -22,7 +23,7 @@ export const SocketProvider = ({ children } : any ) => {
         }
     };
     
-    const socket = io('http://localhost:5050', socketOptions);
+    const socket = io(env.API_URL, socketOptions);
 
   return (
     <SocketContext.Provider value={{ socket }}>
