@@ -3,22 +3,26 @@ import { InputLabel } from './styles';
 
 const Input = (
     {
+        type='text',
         placeholder,
         value,
         onChange,
-        password=false,
+        minLength = 3,
+        maxLength = 32,
         ...props
     }: {
+        type?: string,
         placeholder: string,
         value: string,
         onChange: any,
-        password?: boolean
+        minLength?: number,
+        maxLength?: number
     }
 ) => {
 
     return (
         <InputLabel>
-            <input type={password ? 'password': 'text'} value={value} onChange={e => onChange(e.target.value)} required {...props}/>
+            <input minLength = { minLength } maxLength = { maxLength } type={ type } value={value} onChange={e => onChange(e.target.value)} required {...props}/>
             <span>{ placeholder }</span>
         </InputLabel>
     );
