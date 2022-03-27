@@ -31,3 +31,8 @@ export const Title = styled.h1`
     font-size: 50px;
     color: ${config.colors.darkGreen};
 `;
+
+export const Span = styled.span`
+    color: grey;
+    font-size: 16px;
+`;

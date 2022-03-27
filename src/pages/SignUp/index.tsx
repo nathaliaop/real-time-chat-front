@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import {
     Container,
     Form,
+    Span,
     Title
 } from './styles'
 import api from '../../services/api';
@@ -47,7 +48,7 @@ const SignUp = () => {
                 <Input type = 'email' value={ email } onChange={ setEmail } placeholder='Email' />
                 <Input type = 'password' value={ password } onChange={ setPassword } placeholder='Senha' />
                 <Button>Enviar</Button>
-                <span>Já tem uma conta? <Link to='/signin'>Login</Link></span>
+                <Span>Já tem uma conta? <Link to='/signin'>Login</Link></Span>
             </Form>
         </Container>
         </>

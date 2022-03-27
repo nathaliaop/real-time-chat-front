@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import {
     Container,
     Form,
+    Span,
     Title,
 } from './styles'
 import api from '../../services/api';
@@ -39,11 +40,11 @@ const SignIn = () => {
         <>
         <Container>
             <Form onSubmit={ handleSignIn }>
-                <Title>Login</Title>
+                <Title>Sign In</Title>
                 <Input type = 'email' value={ email } onChange={ setEmail } placeholder='Email' />
                 <Input type = 'password' value={ password } onChange={ setPassword } placeholder='Senha' />
                 <Button>Enviar</Button>
-                <span>Ainda não tem uma conta? <Link to='/signup'>Cadastre-se</Link></span>
+                <Span>Ainda não tem uma conta? <Link to='/signup'>Cadastre-se</Link></Span>
             </Form>
         </Container>
         </>
