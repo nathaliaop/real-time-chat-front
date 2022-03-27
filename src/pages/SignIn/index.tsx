@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import {
     Container,
     Form,
-    Title
+    Title,
 } from './styles'
 import api from '../../services/api';
 import Input from '../../components/Input';
@@ -44,6 +44,10 @@ const SignIn = () => {
         });
     }
 
+    const handleRedirect = () => {
+        navigate('/signup')
+    }
+
     return (
         <>
         <Container>
@@ -52,6 +56,7 @@ const SignIn = () => {
                 <Input type = 'email' value={ email } onChange={ setEmail } placeholder='Email' />
                 <Input type = 'password' value={ password } onChange={ setPassword } placeholder='Password' />
                 <Button>Send</Button>
+                <span>Ainda não tem uma conta? <Link to='signup'>Cadastre-se</Link></span>
             </Form>
         </Container>
         </>
