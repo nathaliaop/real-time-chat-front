@@ -39,11 +39,11 @@ const SignIn = () => {
         <>
         <Container>
             <Form onSubmit={ handleSignIn }>
-                <Title>Sign In</Title>
+                <Title>Login</Title>
                 <Input type = 'email' value={ email } onChange={ setEmail } placeholder='Email' />
-                <Input type = 'password' value={ password } onChange={ setPassword } placeholder='Password' />
-                <Button>Send</Button>
-                <span>Ainda não tem uma conta? <Link to='signup'>Cadastre-se</Link></span>
+                <Input type = 'password' value={ password } onChange={ setPassword } placeholder='Senha' />
+                <Button>Enviar</Button>
+                <span>Ainda não tem uma conta? <Link to='/signup'>Cadastre-se</Link></span>
             </Form>
         </Container>
         </>
