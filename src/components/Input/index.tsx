@@ -1,5 +1,5 @@
 import React from 'react';
-import { InputLabel } from './styles';
+import { InputStyle } from './styles';
 
 const Input = (
     {
@@ -8,7 +8,6 @@ const Input = (
         value,
         onChange,
         minLength = 1,
-        maxLength = 32,
         ...props
     }: {
         type?: string,
@@ -16,15 +15,11 @@ const Input = (
         value: string,
         onChange: any,
         minLength?: number,
-        maxLength?: number
     }
 ) => {
 
     return (
-        <InputLabel>
-            <input minLength = { minLength } maxLength = { maxLength } type={ type } value={value} onChange={e => onChange(e.target.value)} required {...props}/>
-            <span>{ placeholder }</span>
-        </InputLabel>
+        <InputStyle placeholder = { placeholder } minLength = { minLength } type={ type } value={value} onChange={e => onChange(e.target.value)} required {...props}/>
     );
 }
 
