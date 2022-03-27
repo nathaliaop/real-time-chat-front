@@ -1,4 +1,4 @@
-import { ButtonLabel } from './styles';
+import { ButtonStyle } from './styles';
 
 const Button = (
     {
@@ -9,14 +9,14 @@ const Button = (
     }: {
         type?: 'submit' | 'reset' | 'button',
         children: any,
-        onClick?: any
+        onClick?: any,
     }
 ) => {
 
     return (
-        <ButtonLabel type = { type } onClick={ onClick } {...props}>
+        <ButtonStyle type = { type } onClick={ onClick } {...props}>
             { children }
-        </ButtonLabel>
+        </ButtonStyle>
     );
 }
 

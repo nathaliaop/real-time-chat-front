@@ -1,13 +1,18 @@
 import styled from 'styled-components'
 import config from '../../config.json';
 
-export const ButtonLabel = styled.button`
+export const ButtonStyle = styled.button`
     margin: 30px;
     background-color: ${config.colors.darkGreen};
     border: none;
     border-radius: 3px;
     font-size: 20px;
     color: ${config.colors.white};
-    padding: 10px;
-    width: 110px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    width: 8rem;
+    cursor: pointer;
+    :hover {
+        background-color: ${config.colors.darkerGreen};
+    }
 `;
