@@ -16,15 +16,6 @@ const SignIn = () => {
     const navigate = useNavigate();
     const { setToken } = useToken();
 
-    useEffect(() => {
-        window.addEventListener('storage', function (e) {
-            console.log('oi')
-            if (e.storageArea === sessionStorage && e.key === 'token') {
-                navigate('/');
-            }
-        });
-    }, [])
-
     const handleSignIn = (e: any) => {
         e.preventDefault();
         api.post('/auth/signin', {
@@ -36,16 +27,12 @@ const SignIn = () => {
             setEmail('');
             setPassword('');
             setToken(signinDto.token);
-            navigate('/chat');
+            navigate('/');
         })
         .catch(error => {
             console.error(error);
             alert('Ocorreu um erro! Tente novamente.');
         });
-    }
-
-    const handleRedirect = () => {
-        navigate('/signup')
     }
 
     return (

@@ -17,15 +17,6 @@ const SignUp = () => {
     const navigate = useNavigate();
     const { setToken } = useToken();
 
-    useEffect(() => {
-        window.addEventListener('storage', function (e) {
-            console.log('oi')
-            if (e.storageArea === sessionStorage && e.key === 'token') {
-                navigate('/chat');
-            }
-        });
-    }, [])
-
     const handleLogin = (e: any) => {
         e.preventDefault();
         api.post('/auth/signup', {
