@@ -10,6 +10,12 @@ export const Container = styled.div`
     height: 100vh;
     font-family: 'MontSerrat', sans-serif;
     font-size: 12px;
+    span {
+        a {  
+            cursor: pointer;
+            color: ${config.colors.darkGreen};
+        }
+    }
 `;
 
 export const Form = styled.form`
