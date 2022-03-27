@@ -7,7 +7,7 @@ const Input = (
         placeholder,
         value,
         onChange,
-        minLength = 3,
+        minLength = 1,
         maxLength = 32,
         ...props
     }: {

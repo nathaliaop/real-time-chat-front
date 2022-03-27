@@ -7,7 +7,7 @@ import {
 import api from '../../services/api';
 import Input from '../../components/Input';
 
-import ChatMessage from '../../components/ChatMessage';
+import Message from '../../components/Message';
 import { useToken } from '../../context/TokenContext';
 import { useSocket } from '../../context/SocketContext';
 import Button from '../../components/Button';
@@ -80,7 +80,7 @@ const Chat = () => {
         <Container>
           <Content>
             {messages.map((message: Message) => (
-              <ChatMessage
+              <Message
               key={message.id}
               username={message.user.username}
               text={message.text}
