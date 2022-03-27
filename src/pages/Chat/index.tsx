@@ -7,12 +7,12 @@ import {
 import api from '../../services/api';
 import Input from '../../components/Input';
 
-import io from 'socket.io-client';
 import ChatMessage from '../../components/ChatMessage';
-import { TokenContext, useToken } from '../../context/TokenContext';
+import { useToken } from '../../context/TokenContext';
 import { useSocket } from '../../context/SocketContext';
 
 type Message = {
+    id: number,
     createdAt: string,
     text: string,
     user: {
@@ -27,79 +27,64 @@ type Payload = {
 const Chat = () => {
     const [messages, setMessages] = useState<Message[]>([]);
     const [text, setText] = useState<string>('');
-    const [loaded, setLoadead] = useState<boolean>(true);
     const { socket } = useSocket();
     const { token } = useToken();
 
     useEffect(() => {
-        api.get('/messages',
-          {
-            headers: {
-              'Authorization': 'Bearer ' + token
-            }
+      api.get('/messages',
+        {
+          headers: {
+            'Authorization': 'Bearer ' + token
           }
-        ) 
-          .then((response) => {
-            const previousMessages: Message[] = response.data
-            setMessages(previousMessages)
-          })
-      }, [])
-    
-      useEffect(() => {
-        const receivedMessage = (message: Message) => {
-          const newMessage: Message = {
-            createdAt: message.createdAt,
-            text: message.text,
-            user: {
-                username: message.user.username
-            }
-          }
-          
-          setMessages(() => [ ...messages, newMessage ]);
         }
-        
-        // Toda vez que alguem manda uma mensagem, atualiza o array de mensagens
-        socket.on('msgToClient', (message: Message) => {
-          console.log(message);
-          receivedMessage(message);
+      ) 
+        .then((response) => {
+          const previousMessages: Message[] = response.data
+          setMessages(previousMessages)
         })
-      }, [messages]);
+
+      socket.on('msgToClient', (message: Message) => {
+        console.log(message);
+        receivedMessage(message);
+      })
+    }, [])
+
+    const receivedMessage = (message: Message) => {
+      setMessages(state => [ ...state, message ]);
+    }
+  
+    const validateInputMessage = () => {
+      return text.length > 0;
+    }
     
-      const validateInputMessage = () => {
-        return text.length > 0;
-      }
-      
-      const sendMessage = () => {
-        if (validateInputMessage()) {
-          const message: Payload = {
-            text,
-          }
-    
-          socket.emit('msgToServer', message);
-          setText('');
+    const sendMessage = () => {
+      if (validateInputMessage()) {
+        const message: Payload = {
+          text,
         }
+  
+        socket.emit('msgToServer', message);
+        setText('');
       }
+    }
 
     return (
-      loaded ? 
         <Container>
           <Content>
+            {messages.map((message: Message) => (
+              <ChatMessage
+              key={message.id}
+              username={message.user.username}
+              text={message.text}
+              createdAt={message.createdAt}
+              />
+            ))}
             <Form>
-              {messages.map((message: Message, index: number) => (
-                <ChatMessage
-                key={index}
-                username={message.user.username}
-                text={message.text}
-                createdAt={message.createdAt}
-                />
-              ))}
-                  <Input value={ text } onChange={ setText } placeholder='Message'/>
-                  <button onClick={sendMessage}>Send</button>
-              </Form>
+              <Input value={ text } onChange={ setText } placeholder='Message'/>
+              <button onClick={ sendMessage }>Send</button>
+            </Form>
             </Content>
         </Container>
-        :
-        <h1>Loading</h1>
     );
 }
 
