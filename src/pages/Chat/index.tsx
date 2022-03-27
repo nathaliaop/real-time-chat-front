@@ -1,4 +1,4 @@
-import { useState, useEffect, useContext } from 'react';
+import { useState, useEffect } from 'react';
 import {
     Container,
     Content,
@@ -10,6 +10,8 @@ import Input from '../../components/Input';
 import ChatMessage from '../../components/ChatMessage';
 import { useToken } from '../../context/TokenContext';
 import { useSocket } from '../../context/SocketContext';
+import Button from '../../components/Button';
+import { useNavigate } from 'react-router-dom';
 
 type Message = {
     id: number,
@@ -28,7 +30,8 @@ const Chat = () => {
     const [messages, setMessages] = useState<Message[]>([]);
     const [text, setText] = useState<string>('');
     const { socket } = useSocket();
-    const { token } = useToken();
+    const { token, setToken } = useToken();
+    const navigate = useNavigate();
 
     useEffect(() => {
       api.get('/messages',
@@ -57,7 +60,7 @@ const Chat = () => {
       return text.length > 0;
     }
     
-    const sendMessage = () => {
+    const handleMessage = () => {
       if (validateInputMessage()) {
         const message: Payload = {
           text,
@@ -66,6 +69,11 @@ const Chat = () => {
         socket.emit('msgToServer', message);
         setText('');
       }
+    }
+
+    const handleLogout = () => {
+      setToken('');
+      navigate('/signin')
     }
 
     return (
@@ -79,10 +87,11 @@ const Chat = () => {
               createdAt={message.createdAt}
               />
             ))}
-            <Form>
+            <Form onSubmit={ handleMessage }>
               <Input value={ text } onChange={ setText } placeholder='Message'/>
-              <button onClick={ sendMessage }>Send</button>
+              <Button>Send</Button>
             </Form>
+            <Button type='button' onClick={ handleLogout }>Logout</Button>
             </Content>
         </Container>
     );
