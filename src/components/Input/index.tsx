@@ -3,6 +3,7 @@ import { InputStyle } from './styles';
 
 const Input = (
     {
+        width = "15%",
         type='text',
         placeholder,
         value,
@@ -10,6 +11,7 @@ const Input = (
         minLength = 1,
         ...props
     }: {
+        width?: string,
         type?: string,
         placeholder: string,
         value: string,
@@ -19,7 +21,7 @@ const Input = (
 ) => {
 
     return (
-        <InputStyle placeholder = { placeholder } minLength = { minLength } type={ type } value={value} onChange={e => onChange(e.target.value)} required {...props}/>
+        <InputStyle width = { width } placeholder = { placeholder } minLength = { minLength } type={ type } value={value} onChange={e => onChange(e.target.value)} required {...props}/>
     );
 }
 

@@ -3,8 +3,8 @@ import config from '../../config.json';
 
 export const InputStyle = styled.input`
     position: relative;
-    font-size: 14px;
-    width: 15%;
+    font-size: 20px;
+    width: ${props => props.width};
     margin: 20px;
     padding-top: 10px;
     padding-bottom: 10px;

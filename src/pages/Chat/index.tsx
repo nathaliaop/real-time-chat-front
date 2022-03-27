@@ -23,7 +23,7 @@ type Message = {
     user: {
         username: string
     }
-  }
+}
 
 type Payload = {
     text: string
@@ -101,7 +101,7 @@ const Chat = () => {
                     ))}
                 </Scrollbars>
                 <Form onSubmit={ handleMessage }>
-                  <Input value={ text } onChange={ setText } placeholder='Message'/>
+                  <Input width={ "100%" } value={ text } onChange={ setText } placeholder='Message'/>
                   <Button>Send</Button>
                 </Form>
             </ChatContainer>
