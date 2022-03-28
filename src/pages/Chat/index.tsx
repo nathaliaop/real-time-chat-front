@@ -1,7 +1,8 @@
 import {
   useState,
   useEffect,
-  useRef
+  useRef,
+  useImperativeHandle
 } from 'react';
 
 import api from '../../services/api';
@@ -33,6 +34,11 @@ type Message = {
     }
 }
 
+type User = {
+  id: number,
+  username: string
+}
+
 type Payload = {
     text: string
 }
@@ -45,8 +51,10 @@ const Chat = () => {
     const navigate = useNavigate();
     const scrollbars = useRef<any>(<Scrollbars></Scrollbars>);
 
+    const [users, setUsers] = useState<any>([]);
+
     useEffect(() => {
-      
+
       api.get('/messages',
       {
           headers: {
@@ -57,13 +65,21 @@ const Chat = () => {
         .then((response) => {
           const previousMessages: Message[] = response.data;
           setMessages(previousMessages);
+
           scrollbars.current.scrollToBottom();
+
+          
+        })
+        socket.on('users', (users: User[]) => {
+          console.log(users);
+          setUsers(users);
         })
         
         socket.on('msgToClient', (message: Message) => {
           console.log(message);
           receivedMessage(message);
         })
+
     }, [])
 
     const receivedMessage = (message: Message) => {
@@ -89,32 +105,35 @@ const Chat = () => {
 
     const handleLogout = () => {
       setToken('');
+      socket.disconnect();
       navigate('/signin')
     }
     
-    
     return (
-        <Container>
-            <Menu>
-              <Button type='button' onClick={ handleLogout } >Logout</Button>
-            </Menu>
-            <ChatContainer>
-                <Scrollbars style={{ height: 2000 }} ref={ scrollbars }>
-                  {messages.map((message: Message) => (
-                    <Message
+      <Container>
+          <Menu>
+          {users.map((user: any) => (
+            <p key = {user.id}>{user.username}</p>
+          ))}
+            <Button type='button' onClick={ handleLogout } >Logout</Button>
+          </Menu>
+          <ChatContainer>
+              <Scrollbars style={{ height: 2000 }} ref={ scrollbars }>
+                {messages.map((message: Message) => (
+                  <Message
                     key={message.id}
                     username={message.user.username}
                     text={message.text}
                     createdAt={moment(message.createdAt).format("HH:MM")}
-                    />
-                    ))}
-                </Scrollbars>
-                <Form onSubmit={ handleMessage }>
-                  <Input width={ "100%" } value={ text } onChange={ setText } placeholder='Message'/>
-                  <Button>Send</Button>
-                </Form>
-            </ChatContainer>
-        </Container>
+                  />
+                  ))}
+              </Scrollbars>
+              <Form onSubmit={ handleMessage }>
+                <Input width={ "100%" } value={ text } onChange={ setText } placeholder='Message'/>
+                <Button>Send</Button>
+              </Form>
+          </ChatContainer>
+      </Container>
     );
 }
 
