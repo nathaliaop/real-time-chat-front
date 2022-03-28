@@ -5,7 +5,7 @@ const Message = ({ username, text, createdAt }: { username: string, text: string
     <MessageContainer>
       <Username>{username}</Username>
       <Text>{text}</Text>
-      <Timestamp>{createdAt}</Timestamp>
+      <Timestamp>Send at {createdAt}</Timestamp>
     </MessageContainer>
   );
 }

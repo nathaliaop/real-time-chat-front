@@ -17,6 +17,8 @@ import {
 
 import Input from '../../components/Input';
 import Button from '../../components/Button';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 
 const SignIn = () => {
@@ -39,8 +41,16 @@ const SignIn = () => {
             navigate('/');
         })
         .catch(error => {
-            console.error(error);
-            alert('Ocorreu um erro! Tente novamente.');
+            console.error(error.response.data.message);
+            toast.warn(error.response.data.message, {
+                position: "top-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+            });
         });
     }
 
@@ -50,9 +60,20 @@ const SignIn = () => {
             <Form onSubmit={ handleSignIn }>
                 <Title>Sign In</Title>
                 <Input type = 'email' value={ email } onChange={ setEmail } placeholder='Email' />
-                <Input type = 'password' value={ password } onChange={ setPassword } placeholder='Senha' />
-                <Button>Enviar</Button>
-                <Span>Ainda não tem uma conta? <Link to='/signup'>Cadastre-se</Link></Span>
+                <Input type = 'password' value={ password } onChange={ setPassword } placeholder='Password' />
+                <Button>Send</Button>
+                <ToastContainer position="top-right"
+                    autoClose={5000}
+                    hideProgressBar={false}
+                    newestOnTop={false}
+                    closeOnClick
+                    rtl={false}
+                    pauseOnFocusLoss
+                    draggable
+                    pauseOnHover
+                />
+                <ToastContainer />
+                <Span>Not registered yet? <Link to='/signup'>Sign Up</Link></Span>
             </Form>
         </Container>
         </>

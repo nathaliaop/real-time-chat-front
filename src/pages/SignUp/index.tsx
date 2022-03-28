@@ -50,12 +50,12 @@ const SignUp = () => {
         <>
         <Container>
             <Form onSubmit={ handleLogin }>
-                <Title>Cadastro</Title>
-                <Input value={ username } onChange={ setUsername } placeholder='Usuário' />
+                <Title>Sign Up</Title>
+                <Input value={ username } onChange={ setUsername } placeholder='Username' />
                 <Input type = 'email' value={ email } onChange={ setEmail } placeholder='Email' />
-                <Input type = 'password' value={ password } onChange={ setPassword } placeholder='Senha' />
-                <Button>Enviar</Button>
-                <Span>Já tem uma conta? <Link to='/signin'>Login</Link></Span>
+                <Input type = 'password' value={ password } onChange={ setPassword } placeholder='Password' />
+                <Button>Send</Button>
+                <Span>Already have an account? <Link to='/signin'>Login</Link></Span>
             </Form>
         </Container>
         </>

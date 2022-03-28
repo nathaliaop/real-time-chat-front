@@ -22,12 +22,11 @@ import Button from '../../components/Button';
 import Message from '../../components/Message';
 
 import { Scrollbars } from 'react-custom-scrollbars';
-import { format } from 'date-fns'
-
+import moment from 'moment'
 
 type Message = {
     id: number,
-    createdAt: string,
+    createdAt: Date,
     text: string,
     user: {
         username: string
@@ -106,7 +105,7 @@ const Chat = () => {
                     key={message.id}
                     username={message.user.username}
                     text={message.text}
-                    createdAt={message.createdAt}
+                    createdAt={moment(message.createdAt).format("HH:MM")}
                     />
                     ))}
                 </Scrollbars>
