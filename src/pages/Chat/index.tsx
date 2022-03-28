@@ -1,8 +1,7 @@
 import {
   useState,
   useEffect,
-  useRef,
-  useImperativeHandle
+  useRef
 } from 'react';
 
 import api from '../../services/api';
@@ -51,7 +50,7 @@ const Chat = () => {
     const navigate = useNavigate();
     const scrollbars = useRef<any>(<Scrollbars></Scrollbars>);
 
-    const [users, setUsers] = useState<any>([]);
+    const [connectedUsers, setConnectedUsers] = useState<any>([]);
 
     useEffect(() => {
 
@@ -70,16 +69,24 @@ const Chat = () => {
 
           
         })
-        socket.on('users', (users: User[]) => {
-          console.log(users);
-          setUsers(users);
+        socket.on('connectUser', (user: User) => {
+          console.log(user);
+          setConnectedUsers((state: User[]) => [ ...state, user ]);
+        })
+
+        socket.on('disconnectUser', (user: User) => {
+          console.log(user);
+          setConnectedUsers((state: User[]) => state.filter(connectedUser => connectedUser.id !== user.id));
         })
         
-        socket.on('msgToClient', (message: Message) => {
+        socket.on('receivedMessage', (message: Message) => {
           console.log(message);
           receivedMessage(message);
         })
 
+        socket.emit('firstConnection', (connectedUsers: any) => {
+          setConnectedUsers(connectedUsers);
+        })
     }, [])
 
     const receivedMessage = (message: Message) => {
@@ -99,7 +106,7 @@ const Chat = () => {
         }
         
         setText('');
-        socket.emit('msgToServer', message)
+        socket.emit('sentMessage', message)
       }
     }
 
@@ -112,7 +119,7 @@ const Chat = () => {
     return (
       <Container>
           <Menu>
-          {users.map((user: any) => (
+          {connectedUsers.map((user: any) => (
             <p key = {user.id}>{user.username}</p>
           ))}
             <Button type='button' onClick={ handleLogout } >Logout</Button>
