@@ -15,7 +15,7 @@ export const InputStyle = styled.input`
     padding: 12px;
     border-radius: 3px;
     outline: none;
-    color: ${config.colors.darkerGreen};
+    color: black;
     transition: border-color 0.3 ease;
     :focus {
         border: 1px solid ${config.colors.darkerGreen};

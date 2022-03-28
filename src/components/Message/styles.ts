@@ -11,10 +11,10 @@ export const MessageContainer = styled.div`
     width: 40%;
 `;
 
-export const Username = styled.span`
+export const Sender = styled.span`
     font-size: 15px;
     color: ${config.colors.mediumGreen};
-    `;
+`;
 
 export const Text = styled.span`
     padding-top: 10px;
@@ -22,9 +22,4 @@ export const Text = styled.span`
     font-size: 20px;
     width: 100%;
     overflow-wrap: break-word
-`;
-
-export const Timestamp = styled.span`
-    font-size: 10px;
-    color: ${config.colors.mediumGreen};
 `;
