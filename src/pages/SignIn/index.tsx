@@ -55,7 +55,6 @@ const SignIn = () => {
     }
 
     return (
-        <>
         <Container>
             <Form onSubmit={ handleSignIn }>
                 <Title>Sign In</Title>
@@ -72,11 +71,9 @@ const SignIn = () => {
                     draggable
                     pauseOnHover
                 />
-                <ToastContainer />
                 <Span>Not registered yet? <Link to='/signup'>Sign Up</Link></Span>
             </Form>
         </Container>
-        </>
     );
 }
 

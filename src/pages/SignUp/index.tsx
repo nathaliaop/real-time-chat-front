@@ -17,48 +17,65 @@ import {
 
 import Input from '../../components/Input';
 import Button from '../../components/Button';
+import { toast, ToastContainer } from 'react-toastify';
 
 const SignUp = () => {
-    const [username, setUsername] = useState<string>('');
-    const [email, setEmail] = useState<string>('');
-    const [password, setPassword] = useState<string>('');
-    const navigate = useNavigate();
-    const { setToken } = useToken();
+  const [username, setUsername] = useState<string>('');
+  const [email, setEmail] = useState<string>('');
+  const [password, setPassword] = useState<string>('');
+  const navigate = useNavigate();
+  const { setToken } = useToken();
 
-    const handleLogin = (e: any) => {
-        e.preventDefault();
-        api.post('/auth/signup', {
-            username: username,
-            email: email,
-            password: password,
+  const handleLogin = (e: any) => {
+    e.preventDefault();
+    api.post('/auth/signup', {
+      username: username,
+      email: email,
+      password: password,
+    })
+      .then((response) => {
+        const loginDto: {token: string} = response.data;
+          setUsername('');
+          setEmail('');
+          setPassword('');
+          setToken(loginDto.token);
+          navigate('/');
         })
-        .then((response) => {
-            const loginDto: {token: string} = response.data;
-            setUsername('');
-            setEmail('');
-            setPassword('');
-            setToken(loginDto.token);
-            navigate('/');
-        })
-        .catch(error => {
-            console.error(error);
-            alert('Ocorreu um erro! Tente novamente.');
+      .catch(error => {
+        console.error(error.response.data.message);
+        toast.warn(error.response.data.message, {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
         });
+      });
     }
 
     return (
-        <>
-        <Container>
-            <Form onSubmit={ handleLogin }>
-                <Title>Sign Up</Title>
-                <Input value={ username } onChange={ setUsername } placeholder='Username' />
-                <Input type = 'email' value={ email } onChange={ setEmail } placeholder='Email' />
-                <Input type = 'password' value={ password } onChange={ setPassword } placeholder='Password' />
-                <Button>Send</Button>
-                <Span>Already have an account? <Link to='/signin'>Login</Link></Span>
-            </Form>
-        </Container>
-        </>
+      <Container>
+        <Form onSubmit={ handleLogin }>
+          <Title>Sign Up</Title>
+          <Input value={ username } onChange={ setUsername } placeholder='Username' />
+          <Input type = 'email' value={ email } onChange={ setEmail } placeholder='Email' />
+          <Input type = 'password' value={ password } onChange={ setPassword } placeholder='Password' />
+          <Button>Send</Button>
+          <ToastContainer position="top-right"
+            autoClose={5000}
+            hideProgressBar={false}
+            newestOnTop={false}
+            closeOnClick
+            rtl={false}
+            pauseOnFocusLoss
+            draggable
+            pauseOnHover
+          />
+          <Span>Already have an account? <Link to='/signin'>Login</Link></Span>
+        </Form>
+      </Container>
     );
 }
 
