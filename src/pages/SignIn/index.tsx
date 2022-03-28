@@ -1,15 +1,23 @@
-import { useEffect, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { useState } from 'react';
+import {
+    Link,
+    useNavigate
+} from 'react-router-dom';
+
+import api from '../../services/api';
+
+import { useToken } from '../../context/TokenContext';
+
 import {
     Container,
     Form,
     Span,
     Title,
 } from './styles'
-import api from '../../services/api';
+
 import Input from '../../components/Input';
 import Button from '../../components/Button';
-import { useToken } from '../../context/TokenContext';
+
 
 const SignIn = () => {
     const [email, setEmail] = useState<string>('');

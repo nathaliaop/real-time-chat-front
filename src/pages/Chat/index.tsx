@@ -1,20 +1,29 @@
-import React, { useState, useEffect, useRef } from 'react';
+import {
+  useState,
+  useEffect,
+  useRef
+} from 'react';
+
+import api from '../../services/api';
+
+import { useToken } from '../../context/TokenContext';
+import { useSocket } from '../../context/SocketContext';
+import { useNavigate } from 'react-router-dom';
+
 import {
     Container,
     Form,
     Menu,
     ChatContainer
 } from './styles'
-import api from '../../services/api';
-import Input from '../../components/Input';
 
-import Message from '../../components/Message';
-import { useToken } from '../../context/TokenContext';
-import { useSocket } from '../../context/SocketContext';
+import Input from '../../components/Input';
 import Button from '../../components/Button';
-import { useNavigate } from 'react-router-dom';
+import Message from '../../components/Message';
 
 import { Scrollbars } from 'react-custom-scrollbars';
+import { format } from 'date-fns'
+
 
 type Message = {
     id: number,
@@ -83,7 +92,8 @@ const Chat = () => {
       setToken('');
       navigate('/signin')
     }
-
+    
+    
     return (
         <Container>
             <Menu>
