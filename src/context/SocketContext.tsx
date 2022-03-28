@@ -9,6 +9,7 @@ type SocketContextType = {
 export const SocketContext = createContext<SocketContextType | null>(null);
 
 export const SocketProvider = ({ children } : any ) => {
+  console.log('tentando entrar...');
 
   const { token } = useToken();
 
@@ -24,7 +25,6 @@ export const SocketProvider = ({ children } : any ) => {
 
   const socket = io('http://localhost:5050', socketOptions);
 
-  co
 
   return (
     <SocketContext.Provider value={{ socket }}>

@@ -21,11 +21,11 @@ const Router = () => {
                 <Route path='/signin' element={<SignIn />} />
                 <Route path='/signup' element={<SignUp />} />
                 <Route path='/' element={
-                    <SocketProvider>
-                        <ProtectedRoute>
+                    <ProtectedRoute>
+                        <SocketProvider>
                             <Chat />
-                        </ProtectedRoute>
-                    </SocketProvider>
+                        </SocketProvider>
+                    </ProtectedRoute>
                 } />
             </Routes>
         </BrowserRouter>
