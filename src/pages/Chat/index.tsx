@@ -14,7 +14,8 @@ import {
     Container,
     Form,
     Menu,
-    ChatContainer
+    ChatContainer,
+    OnlineUser
 } from './styles'
 
 import Input from '../../components/Input';
@@ -43,105 +44,108 @@ type Payload = {
 }
 
 const Chat = () => {
-    const [messages, setMessages] = useState<Message[]>([]);
-    const [text, setText] = useState<string>('');
-    const { socket } = useSocket();
-    const { token, setToken } = useToken();
-    const navigate = useNavigate();
-    const scrollbars = useRef<any>(<Scrollbars></Scrollbars>);
+  const [messages, setMessages] = useState<Message[]>([]);
+  const [text, setText] = useState<string>('');
+  const { socket } = useSocket();
+  const { token, setToken } = useToken();
+  const navigate = useNavigate();
+  const scrollbars = useRef<any>(<Scrollbars></Scrollbars>);
 
-    const [connectedUsers, setConnectedUsers] = useState<any>([]);
+  const [connectedUsers, setConnectedUsers] = useState<any>([]);
 
-    useEffect(() => {
+  useEffect(() => {
 
-      api.get('/messages',
-      {
-          headers: {
-            'Authorization': 'Bearer ' + token
-          }
+    api.get('/messages',
+    {
+        headers: {
+          'Authorization': 'Bearer ' + token
         }
-        ) 
-        .then((response) => {
-          const previousMessages: Message[] = response.data;
-          setMessages(previousMessages);
-
-          scrollbars.current.scrollToBottom();
-
-          
-        })
-        socket.on('connectUser', (user: User) => {
-          console.log(user);
-          setConnectedUsers((state: User[]) => [ ...state, user ]);
-        })
-
-        socket.on('disconnectUser', (user: User) => {
-          console.log(user);
-          setConnectedUsers((state: User[]) => state.filter(connectedUser => connectedUser.id !== user.id));
-        })
-        
-        socket.on('receivedMessage', (message: Message) => {
-          console.log(message);
-          receivedMessage(message);
-        })
-
-        socket.emit('firstConnection', (connectedUsers: any) => {
-          setConnectedUsers(connectedUsers);
-        })
-    }, [])
-
-    const receivedMessage = (message: Message) => {
-      setMessages(state => [ ...state, message ]);
-      scrollbars.current.scrollToBottom();
-    }
-  
-    const validateInputMessage = () => {
-      return text.length > 0;
-    }
-    
-    const handleMessage = (e: any) => {
-      e.preventDefault();
-      if (validateInputMessage()) {
-        const message: Payload = {
-          text,
-        }
-        
-        setText('');
-        socket.emit('sentMessage', message)
       }
-    }
+      ) 
+      .then((response) => {
+        const previousMessages: Message[] = response.data;
+        setMessages(previousMessages);
 
-    const handleLogout = () => {
-      setToken('');
-      socket.disconnect();
-      navigate('/signin')
+        scrollbars.current.scrollToBottom();
+
+        
+      })
+      socket.on('connectUser', (user: User) => {
+        console.log(user);
+        setConnectedUsers((state: User[]) => [ ...state, user ]);
+      })
+
+      socket.on('disconnectUser', (user: User) => {
+        console.log(user);
+        setConnectedUsers((state: User[]) => state.filter(connectedUser => connectedUser.id !== user.id));
+      })
+      
+      socket.on('receivedMessage', (message: Message) => {
+        console.log(message);
+        receivedMessage(message);
+      })
+
+      socket.emit('firstConnection', (connectedUsers: any) => {
+        setConnectedUsers(connectedUsers);
+      })
+  }, [])
+
+  const receivedMessage = (message: Message) => {
+    setMessages(state => [ ...state, message ]);
+    scrollbars.current.scrollToBottom();
+  }
+
+  const validateInputMessage = () => {
+    return text.length > 0;
+  }
+  
+  const handleMessage = (e: any) => {
+    e.preventDefault();
+    if (validateInputMessage()) {
+      const message: Payload = {
+        text,
+      }
+      
+      setText('');
+      socket.emit('sentMessage', message)
     }
-    
-    return (
-      <Container>
-          <Menu>
+  }
+
+  const handleLogout = () => {
+    setToken('');
+    socket.disconnect();
+    navigate('/signin')
+  }
+  
+  return (
+    <Container>
+      <Menu>
+        <p>Online Users</p>
+        <Scrollbars >
           {connectedUsers.map((user: any) => (
-            <p key = {user.id}>{user.username}</p>
+            <OnlineUser key = {user.id}>{user.username}</OnlineUser>
           ))}
-            <Button type='button' onClick={ handleLogout } >Logout</Button>
-          </Menu>
-          <ChatContainer>
-              <Scrollbars style={{ height: 2000 }} ref={ scrollbars }>
-                {messages.map((message: Message) => (
-                  <Message
-                    key={message.id}
-                    username={message.user.username}
-                    text={message.text}
-                    createdAt={moment(message.createdAt).format("HH:MM")}
-                  />
-                  ))}
-              </Scrollbars>
-              <Form onSubmit={ handleMessage }>
-                <Input width={ "100%" } value={ text } onChange={ setText } placeholder='Message'/>
-                <Button>Send</Button>
-              </Form>
-          </ChatContainer>
-      </Container>
-    );
+        </Scrollbars>
+        <Button type='button' onClick={ handleLogout } >Logout</Button>
+      </Menu>
+      <ChatContainer>
+        <Scrollbars ref={ scrollbars }>
+          {messages.map((message: Message) => (
+            <Message
+              key={message.id}
+              username={message.user.username}
+              text={message.text}
+              createdAt={moment(message.createdAt).format("HH:MM")}
+            />
+          ))}
+        </Scrollbars>
+        <Form onSubmit={ handleMessage }>
+          <Input width={ "100%" } value={ text } onChange={ setText } placeholder='Message'/>
+          <Button>Send</Button>
+        </Form>
+      </ChatContainer>
+    </Container>
+  );
 }
 
 export default Chat;
