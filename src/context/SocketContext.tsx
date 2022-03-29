@@ -1,5 +1,6 @@
 import { createContext, useContext } from 'react'
 import { io, Socket } from 'socket.io-client';
+import env from "react-dotenv";
 import { useToken } from './TokenContext';
 
 type SocketContextType = {
@@ -23,7 +24,7 @@ export const SocketProvider = ({ children } : any ) => {
       }
   };
 
-  const socket = io('http://localhost:5050', socketOptions);
+  const socket = io(env.API_URL, socketOptions);
 
 
   return (
