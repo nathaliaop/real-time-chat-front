@@ -26,12 +26,12 @@ import { Scrollbars } from 'react-custom-scrollbars';
 import moment from 'moment'
 
 type Message = {
-    id: number,
-    createdAt: Date,
-    text: string,
-    user: {
-        username: string
-    }
+  id: number,
+  createdAt: Date,
+  text: string,
+  user: {
+      username: string
+  }
 }
 
 type User = {
@@ -40,7 +40,7 @@ type User = {
 }
 
 type Payload = {
-    text: string
+  text: string
 }
 
 const Chat = () => {
