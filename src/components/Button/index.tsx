@@ -9,7 +9,7 @@ const Button = (
     }: {
         type?: 'submit' | 'reset' | 'button',
         children: any,
-        onClick?: any,
+        onClick?: any
     }
 ) => {
 

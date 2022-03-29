@@ -1,4 +1,3 @@
-import React from 'react';
 import { InputStyle } from './styles';
 
 const Input = (
@@ -17,6 +16,7 @@ const Input = (
         value: string,
         onChange: any,
         minLength?: number,
+        maxLength?: number
     }
 ) => {
 
