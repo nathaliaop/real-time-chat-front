@@ -9,6 +9,7 @@ const Input = (
         value,
         onChange,
         minLength = 1,
+        maxLength = 2000,
         ...props
     }: {
         width?: string,
@@ -17,11 +18,12 @@ const Input = (
         value: string,
         onChange: any,
         minLength?: number,
+        maxLength?: number
     }
 ) => {
 
     return (
-        <InputStyle width = { width } placeholder = { placeholder } minLength = { minLength } type={ type } value={value} onChange={e => onChange(e.target.value)} required {...props}/>
+        <InputStyle width = { width } placeholder = { placeholder } minLength = { minLength } maxLength = { maxLength } type={ type } value={value} onChange={e => onChange(e.target.value)} required {...props}/>
     );
 }
 
