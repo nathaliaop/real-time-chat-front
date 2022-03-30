@@ -34,7 +34,7 @@ const SignUp = () => {
       password: password,
     })
       .then((response) => {
-        const loginDto: {token: string} = response.data;
+        const loginDto: {token: string, userId: number} = response.data;
           setUsername('');
           setEmail('');
           setPassword('');

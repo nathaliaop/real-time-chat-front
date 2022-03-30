@@ -25,7 +25,7 @@ const SignIn = () => {
     const [email, setEmail] = useState<string>('');
     const [password, setPassword] = useState<string>('');
     const navigate = useNavigate();
-    const { setToken } = useToken();
+    const { setToken, setUserId } = useToken();
 
     const handleSignIn = (e: any) => {
         e.preventDefault();
@@ -34,10 +34,11 @@ const SignIn = () => {
             password: password,
         })
         .then((response) => {
-            const signinDto: {token: string} = response.data;
+            const signinDto: {token: string, userId: number} = response.data;
             setEmail('');
             setPassword('');
             setToken(signinDto.token);
+            setUserId(signinDto.userId);
             navigate('/');
         })
         .catch(error => {
