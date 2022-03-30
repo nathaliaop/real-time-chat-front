@@ -25,7 +25,7 @@ const SignIn = () => {
     const [email, setEmail] = useState<string>('');
     const [password, setPassword] = useState<string>('');
     const navigate = useNavigate();
-    const { setToken } = useToken();
+    const { setToken, setUserId } = useToken();
 
     const handleSignIn = (e: any) => {
         e.preventDefault();
@@ -34,16 +34,17 @@ const SignIn = () => {
             password: password,
         })
         .then((response) => {
-            const signinDto: {token: string} = response.data;
+            const signinDto: {token: string, userId: number} = response.data;
             setEmail('');
             setPassword('');
             setToken(signinDto.token);
+            setUserId(signinDto.userId);
             navigate('/');
         })
         .catch(error => {
             console.error(error.response.data.message);
             toast.warn(error.response.data.message, {
-                position: "top-right",
+                position: 'top-right',
                 autoClose: 5000,
                 hideProgressBar: false,
                 closeOnClick: true,
@@ -61,7 +62,7 @@ const SignIn = () => {
                 <Input type = 'email' value={ email } onChange={ setEmail } placeholder='Email' />
                 <Input type = 'password' value={ password } onChange={ setPassword } placeholder='Password' />
                 <Button>Send</Button>
-                <ToastContainer position="top-right"
+                <ToastContainer position='top-right'
                     autoClose={5000}
                     hideProgressBar={false}
                     newestOnTop={false}

@@ -10,7 +10,7 @@ export const ButtonStyle = styled.button`
     color: ${config.colors.white};
     padding-top: 10px;
     padding-bottom: 10px;
-    width: 8rem;
+    width: 5rem;
     cursor: pointer;
     :hover {
         background-color: ${config.colors.darkerGreen};
