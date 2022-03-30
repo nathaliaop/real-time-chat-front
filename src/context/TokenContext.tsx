@@ -8,10 +8,10 @@ type TokenContextType = {
 export const TokenContext = createContext<TokenContextType | null>(null);
 
 export const TokenProvider = ({ children } : any ) => {
-  const [token, setTokenContext] = useState<string>(sessionStorage.getItem('token') || '');
+  const [token, setTokenContext] = useState<string>(localStorage.getItem('token') || '');
 
   const setToken = (token: string) => {
-    sessionStorage.setItem('token', token);
+    localStorage.setItem('token', token);
     setTokenContext(token);
   }
 
