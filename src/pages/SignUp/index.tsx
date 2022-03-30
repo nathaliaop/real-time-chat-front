@@ -24,7 +24,7 @@ const SignUp = () => {
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
   const navigate = useNavigate();
-  const { setToken } = useToken();
+  const { setToken, setUserId } = useToken();
 
   const handleLogin = (e: any) => {
     e.preventDefault();
@@ -34,11 +34,12 @@ const SignUp = () => {
       password: password,
     })
       .then((response) => {
-        const loginDto: {token: string, userId: number} = response.data;
+        const signupDto: {token: string, userId: number} = response.data;
           setUsername('');
           setEmail('');
           setPassword('');
-          setToken(loginDto.token);
+          setToken(signupDto.token);
+          setUserId(signupDto.userId);
           navigate('/');
         })
       .catch(error => {
