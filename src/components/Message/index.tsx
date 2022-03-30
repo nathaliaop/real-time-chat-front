@@ -1,17 +1,19 @@
 import { useState } from 'react';
+
 import { MessageContainer, Text, Sender } from './styles';
+import Input from '../Input';
+import Button from '../Button';
+
 import { FaTrash } from 'react-icons/fa';
 import { RiPencilFill } from 'react-icons/ri';
 import { Modal, Box, Typography } from '@mui/material';
-import Input from '../Input';
-import Button from '../Button';
 
 const style = {
   position: 'absolute',
   top: '50%',
   left: '50%',
   transform: 'translate(-50%, -50%)',
-  width: 400,
+  width: '80%',
   bgcolor: 'background.paper',
   boxShadow: 24,
   p: 4,
@@ -19,14 +21,16 @@ const style = {
 
 const Message = ({
   messageId,
-  username,
+  userId,
+  user,
   text,
   createdAt,
   onDelete,
   onEdit,
 }: {
   messageId: number;
-  username: string;
+  userId: number;
+  user: any;
   text: string;
   createdAt: string;
   onDelete: any;
@@ -37,19 +41,40 @@ const Message = ({
   const handleOpen = () => {
     setOpen(true);
     setEditMessageText(text);
-  }
+  };
   const handleClose = () => {
     setOpen(false);
-  }
+  };
 
   return (
-    <MessageContainer>
-      <Sender>
-        {username} {createdAt}
+    <MessageContainer userId={userId} messageUserId={user.id}>
+      <Sender userId={userId} messageUserId={user.id}>
+        {user.username} {createdAt}
       </Sender>
-      <RiPencilFill onClick={handleOpen}></RiPencilFill>
-      <Text>{text}</Text>
-      <FaTrash onClick={() => onDelete(messageId)}></FaTrash>
+      <div
+        style={{
+          display: 'flex',
+          flexDirection: 'row',
+          justifyContent: 'space-between',
+        }}
+      >
+        <Text>{text}</Text>
+        {userId === user.id ? (
+          <div
+            style={{
+              display: 'flex',
+              flexDirection: 'row',
+              gap: '20px',
+              cursor: 'pointer',
+            }}
+          >
+            <RiPencilFill size='25' onClick={handleOpen}></RiPencilFill>
+            <FaTrash size='20' onClick={() => onDelete(messageId)}></FaTrash>
+          </div>
+        ) : (
+          <></>
+        )}
+      </div>
       <Modal
         open={open}
         onClose={handleClose}
@@ -60,10 +85,13 @@ const Message = ({
           <Typography id='modal-modal-title' variant='h6' component='h2'>
             Edite sua mensagem
           </Typography>
-          <form onSubmit={(e) => {
-            handleClose();
-            onEdit(e, messageId, editMessageText);
-          }}>
+          <form
+            style={{ display: 'flex' }}
+            onSubmit={(e) => {
+              handleClose();
+              onEdit(e, messageId, editMessageText);
+            }}
+          >
             <Input
               width={'80%'}
               value={editMessageText}

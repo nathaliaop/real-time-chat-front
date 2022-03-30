@@ -38,13 +38,14 @@ const Chat = () => {
   const [messages, setMessages] = useState<Message[]>([]);
   const [text, setText] = useState<string>('');
   const { socket } = useSocket();
-  const { token, setToken } = useToken();
+  const { token, setToken, userId } = useToken();
   const navigate = useNavigate();
   const scrollbars = useRef<any>(<Scrollbars></Scrollbars>);
 
   const [connectedUsers, setConnectedUsers] = useState<any>([]);
 
   useEffect(() => {
+    console.log(userId);
     api
       .get('/messages', {
         headers: {
@@ -57,6 +58,7 @@ const Chat = () => {
 
         scrollbars.current.scrollToBottom();
       });
+
     socket.on('connectUser', (user: User) => {
       console.log(user);
       setConnectedUsers((state: User[]) => [...state, user]);
@@ -96,6 +98,7 @@ const Chat = () => {
         return message
       }))
     });
+
   }, []);
 
   const receivedMessage = (message: Message) => {
@@ -107,7 +110,7 @@ const Chat = () => {
     return text.length > 0;
   };
 
-  const handleMessage = (e: any) => {
+  const handleReceiveMessage = (e: any) => {
     e.preventDefault();
     if (validateInputMessage()) {
       const message: Payload = {
@@ -149,19 +152,22 @@ const Chat = () => {
       </Menu>
       <ChatContainer>
         <Scrollbars ref={scrollbars}>
+          <div style = {{display: 'flex', flexDirection: 'column'}}>
           {messages.map((message: Message) => (
             <Message
               key={message.id}
               messageId={message.id}
-              username={message.user.username}
+              userId={userId}
+              user={message.user}
               text={message.text}
               createdAt={moment(message.createdAt).format('HH:MM')}
               onDelete={handleDeleteMessage}
               onEdit={handleEditMessage}
             />
           ))}
+          </div>
         </Scrollbars>
-        <Form onSubmit={handleMessage}>
+        <Form onSubmit={handleReceiveMessage}>
           <Input
             width={'100%'}
             value={text}
