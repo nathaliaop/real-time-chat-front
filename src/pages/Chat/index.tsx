@@ -83,6 +83,19 @@ const Chat = () => {
         state.filter((message) => message.id !== messageId)
       );
     });
+
+    socket.on("messageEdited", (messageId: number, text: string) => {
+      console.log(messageId);
+      console.log(text);
+      setMessages(state => state.map(message => {
+        if (message.id === messageId) {
+          return {
+            ...message, text
+          }
+        }
+        return message
+      }))
+    });
   }, []);
 
   const receivedMessage = (message: Message) => {
@@ -116,6 +129,11 @@ const Chat = () => {
     socket.emit("messageDelete", { messageId });
   };
 
+  const handleEditMessage = (e: React.FormEvent<HTMLFormElement>, messageId: number, text: string) => {
+    e.preventDefault();
+    socket.emit("messageEdit", { messageId, text });
+  };
+
   return (
     <Container>
       <Menu>
@@ -134,10 +152,12 @@ const Chat = () => {
           {messages.map((message: Message) => (
             <Message
               key={message.id}
+              messageId={message.id}
               username={message.user.username}
               text={message.text}
               createdAt={moment(message.createdAt).format("HH:MM")}
-              onDelete={() => handleDeleteMessage(message.id)}
+              onDelete={handleDeleteMessage}
+              onEdit={handleEditMessage}
             />
           ))}
         </Scrollbars>
