@@ -44,7 +44,7 @@ const SignUp = () => {
       .catch(error => {
         console.error(error.response.data.message);
         toast.warn(error.response.data.message, {
-          position: "top-right",
+          position: 'top-right',
           autoClose: 5000,
           hideProgressBar: false,
           closeOnClick: true,
@@ -63,7 +63,7 @@ const SignUp = () => {
           <Input type = 'email' value={ email } onChange={ setEmail } placeholder='Email' />
           <Input type = 'password' value={ password } onChange={ setPassword } placeholder='Password' />
           <Button>Send</Button>
-          <ToastContainer position="top-right"
+          <ToastContainer position='top-right'
             autoClose={5000}
             hideProgressBar={false}
             newestOnTop={false}

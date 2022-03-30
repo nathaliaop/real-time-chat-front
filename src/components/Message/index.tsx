@@ -33,7 +33,7 @@ const Message = ({
   onEdit: any;
 }) => {
   const [open, setOpen] = useState(false);
-  const [editMessageText, setEditMessageText] = useState("");
+  const [editMessageText, setEditMessageText] = useState('');
   const handleOpen = () => {
     setOpen(true);
     setEditMessageText(text);

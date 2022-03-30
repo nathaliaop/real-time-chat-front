@@ -3,7 +3,7 @@ import { InputStyle } from './styles';
 
 const Input = (
     {
-        width = "13rem",
+        width = '13rem',
         type='text',
         placeholder,
         value,
