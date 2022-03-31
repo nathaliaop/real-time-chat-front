@@ -10,8 +10,6 @@ type SocketContextType = {
 export const SocketContext = createContext<SocketContextType | null>(null);
 
 export const SocketProvider = ({ children } : any ) => {
-  console.log('tentando entrar...');
-
   const { token } = useToken();
 
   const socketOptions = {

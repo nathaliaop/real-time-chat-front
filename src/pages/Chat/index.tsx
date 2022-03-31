@@ -45,7 +45,6 @@ const Chat = () => {
   const [connectedUsers, setConnectedUsers] = useState<any>([]);
 
   useEffect(() => {
-    console.log(userId);
     api
       .get('/messages', {
         headers: {
@@ -60,19 +59,16 @@ const Chat = () => {
       });
 
     socket.on('connectUser', (user: User) => {
-      console.log(user);
       setConnectedUsers((state: User[]) => [...state, user]);
     });
 
     socket.on('disconnectUser', (user: User) => {
-      console.log(user);
       setConnectedUsers((state: User[]) =>
         state.filter((connectedUser) => connectedUser.id !== user.id)
       );
     });
 
     socket.on('receivedMessage', (message: Message) => {
-      console.log(message);
       receivedMessage(message);
     });
 
@@ -87,8 +83,6 @@ const Chat = () => {
     });
 
     socket.on('messageEdited', (messageId: number, text: string) => {
-      console.log(messageId);
-      console.log(text);
       setMessages(state => state.map(message => {
         if (message.id === messageId) {
           return {
