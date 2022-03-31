@@ -51,7 +51,7 @@ const Message = ({
       <Sender userId={userId} messageUserId={user.id}>
         {user.username} {createdAt}
       </Sender>
-      <MessageContent>
+      <MessageContent userId={userId} messageUserId={user.id}>
         <Text>{text}</Text>
         {userId === user.id ? (
           <IconsContainer

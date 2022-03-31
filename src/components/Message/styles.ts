@@ -11,16 +11,16 @@ export const MessageContainer = styled.div<MessageContainerType>`
     flex-direction: column;
     align-self: ${props => props.userId === props.messageUserId ? 'flex-end' : 'flex-start'};
     padding: 20px;
-    margin: 30px;
     background-color: ${props => props.userId === props.messageUserId ? `${config.colors.darkGreen}` : `${config.colors.mediumGreen}`};
     border-radius: 40px;
     width: 40%;
     word-wrap: break-word;
 `;
 
-export const MessageContent = styled.div`
+export const MessageContent = styled.div<MessageContainerType>`
     display: grid;
-    grid-template-columns: 90% 10%;
+    grid-template-columns:  ${props => props.userId === props.messageUserId ? `90% 10%` : `100%`};
+    grid-gap: 10px;
 `
 
 export const IconsContainer = styled.div`
@@ -28,7 +28,9 @@ export const IconsContainer = styled.div`
     flex-direction: row;
     align-items: center;
     gap: 20px;
-    cursor: pointer;
+    svg {
+        cursor: pointer;
+    }
 `
 
 export const Form = styled.form`

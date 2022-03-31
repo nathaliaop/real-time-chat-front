@@ -6,7 +6,7 @@ import { useToken } from '../../context/TokenContext';
 import { useSocket } from '../../context/SocketContext';
 import { useNavigate } from 'react-router-dom';
 
-import { Container, Form, Menu, ChatContainer, OnlineUser } from './styles';
+import { Container, Form, Menu, ChatContainer, OnlineUser, MessagesContainer } from './styles';
 
 import Input from '../../components/Input';
 import Button from '../../components/Button';
@@ -58,7 +58,7 @@ const Chat = () => {
         scrollbars.current.scrollToBottom();
       })
       .catch((error) => {
-        navigate('/signin')
+        navigate('/signin');
       });
 
     socket.on('connectUser', (user: User) => {
@@ -142,20 +142,22 @@ const Chat = () => {
 
   return (
     <Container>
-      <Menu>
-        <p>Online Users</p>
-        <Scrollbars>
-          {connectedUsers.map((user: any) => (
-            <OnlineUser key={user.id}>{user.username}</OnlineUser>
-          ))}
-        </Scrollbars>
-        <Button type="button" onClick={handleLogout}>
-          Logout
-        </Button>
-      </Menu>
+      <Scrollbars>
+        <Menu>
+          <div>
+            <p>Online Users</p>
+            {connectedUsers.map((user: any) => (
+              <OnlineUser key={user.id}>{user.username}</OnlineUser>
+            ))}
+          </div>
+          <Button type="button" onClick={handleLogout}>
+            Logout
+          </Button>
+        </Menu>
+      </Scrollbars>
       <ChatContainer>
         <Scrollbars ref={scrollbars}>
-          <div style={{ display: 'flex', flexDirection: 'column' }}>
+          <MessagesContainer>
             {messages.map((message: Message) => (
               <Message
                 key={message.id}
@@ -168,7 +170,7 @@ const Chat = () => {
                 onEdit={handleEditMessage}
               />
             ))}
-          </div>
+          </MessagesContainer>
         </Scrollbars>
         <Form onSubmit={handleReceiveMessage}>
           <Input
