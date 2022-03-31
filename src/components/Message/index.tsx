@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-import { MessageContainer, Text, Sender } from './styles';
+import { MessageContainer, MessageContent, IconsContainer, Form, Text, Sender, } from './styles';
 import Input from '../Input';
 import Button from '../Button';
 
@@ -51,30 +51,18 @@ const Message = ({
       <Sender userId={userId} messageUserId={user.id}>
         {user.username} {createdAt}
       </Sender>
-      <div
-        style={{
-          display: 'flex',
-          flexDirection: 'row',
-          justifyContent: 'space-between',
-        }}
-      >
+      <MessageContent>
         <Text>{text}</Text>
         {userId === user.id ? (
-          <div
-            style={{
-              display: 'flex',
-              flexDirection: 'row',
-              gap: '20px',
-              cursor: 'pointer',
-            }}
+          <IconsContainer
           >
             <RiPencilFill size='25' onClick={handleOpen}></RiPencilFill>
             <FaTrash size='20' onClick={() => onDelete(messageId)}></FaTrash>
-          </div>
+          </IconsContainer>
         ) : (
           <></>
         )}
-      </div>
+      </MessageContent>
       <Modal
         open={open}
         onClose={handleClose}
@@ -85,8 +73,7 @@ const Message = ({
           <Typography id='modal-modal-title' variant='h6' component='h2'>
             Edite sua mensagem
           </Typography>
-          <form
-            style={{ display: 'flex' }}
+          <Form
             onSubmit={(e) => {
               handleClose();
               onEdit(e, messageId, editMessageText);
@@ -99,7 +86,7 @@ const Message = ({
               placeholder='Message'
             />
             <Button>Send</Button>
-          </form>
+          </Form>
         </Box>
       </Modal>
     </MessageContainer>

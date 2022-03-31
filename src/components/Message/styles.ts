@@ -15,17 +15,33 @@ export const MessageContainer = styled.div<MessageContainerType>`
     background-color: ${props => props.userId === props.messageUserId ? `${config.colors.darkGreen}` : `${config.colors.mediumGreen}`};
     border-radius: 40px;
     width: 40%;
+    word-wrap: break-word;
 `;
+
+export const MessageContent = styled.div`
+    display: grid;
+    grid-template-columns: 90% 10%;
+`
+
+export const IconsContainer = styled.div`
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 20px;
+    cursor: pointer;
+`
+
+export const Form = styled.form`
+    display: flex;
+`
 
 export const Sender = styled.span<MessageContainerType>`
     font-size: 15px;
     color: ${props => props.userId === props.messageUserId ? `${config.colors.mediumGreen}` : `${config.colors.darkGreen}`};
 `;
 
-export const Text = styled.span`
+export const Text = styled.p`
     padding-top: 10px;
     padding-bottom: 10px;
     font-size: 20px;
-    width: 100%;
-    overflow-wrap: break-word
 `;
