@@ -11,6 +11,13 @@ React framework TypeScript repositório inicial.
 $ yarn install
 ```
 
+## Testes
+
+```bash
+$ cy:open
+$ test:cy
+```
+
 ## Iniciando o servidor (acesso na porta [5000](https://localhost:5000))
 
 ```bash
