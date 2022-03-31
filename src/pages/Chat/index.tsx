@@ -64,7 +64,7 @@ const Chat = () => {
 
     socket.on('disconnectUser', (user: User) => {
       setConnectedUsers((state: User[]) =>
-        state.filter((connectedUser) => connectedUser.id !== user.id)
+        state.filter((connectedUser) => connectedUser.id !== user.id),
       );
     });
 
@@ -78,21 +78,23 @@ const Chat = () => {
 
     socket.on('messageDeleted', (messageId: number) => {
       setMessages((state) =>
-        state.filter((message) => message.id !== messageId)
+        state.filter((message) => message.id !== messageId),
       );
     });
 
     socket.on('messageEdited', (messageId: number, text: string) => {
-      setMessages(state => state.map(message => {
-        if (message.id === messageId) {
-          return {
-            ...message, text
+      setMessages((state) =>
+        state.map((message) => {
+          if (message.id === messageId) {
+            return {
+              ...message,
+              text,
+            };
           }
-        }
-        return message
-      }))
+          return message;
+        }),
+      );
     });
-
   }, []);
 
   const receivedMessage = (message: Message) => {
@@ -126,7 +128,11 @@ const Chat = () => {
     socket.emit('messageDelete', { messageId });
   };
 
-  const handleEditMessage = (e: React.FormEvent<HTMLFormElement>, messageId: number, text: string) => {
+  const handleEditMessage = (
+    e: React.FormEvent<HTMLFormElement>,
+    messageId: number,
+    text: string,
+  ) => {
     e.preventDefault();
     socket.emit('messageEdit', { messageId, text });
   };
@@ -140,25 +146,25 @@ const Chat = () => {
             <OnlineUser key={user.id}>{user.username}</OnlineUser>
           ))}
         </Scrollbars>
-        <Button type='button' onClick={handleLogout}>
+        <Button type="button" onClick={handleLogout}>
           Logout
         </Button>
       </Menu>
       <ChatContainer>
         <Scrollbars ref={scrollbars}>
-          <div style = {{display: 'flex', flexDirection: 'column'}}>
-          {messages.map((message: Message) => (
-            <Message
-              key={message.id}
-              messageId={message.id}
-              userId={userId}
-              user={message.user}
-              text={message.text}
-              createdAt={moment(message.createdAt).format('HH:MM')}
-              onDelete={handleDeleteMessage}
-              onEdit={handleEditMessage}
-            />
-          ))}
+          <div style={{ display: 'flex', flexDirection: 'column' }}>
+            {messages.map((message: Message) => (
+              <Message
+                key={message.id}
+                messageId={message.id}
+                userId={userId}
+                user={message.user}
+                text={message.text}
+                createdAt={moment(message.createdAt).format('HH:mm')}
+                onDelete={handleDeleteMessage}
+                onEdit={handleEditMessage}
+              />
+            ))}
           </div>
         </Scrollbars>
         <Form onSubmit={handleReceiveMessage}>
@@ -166,7 +172,7 @@ const Chat = () => {
             width={'100%'}
             value={text}
             onChange={setText}
-            placeholder='Message'
+            placeholder="Message"
           />
           <Button>Send</Button>
         </Form>
