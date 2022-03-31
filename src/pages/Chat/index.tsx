@@ -56,6 +56,9 @@ const Chat = () => {
         setMessages(previousMessages);
 
         scrollbars.current.scrollToBottom();
+      })
+      .catch((error) => {
+        navigate('/signin')
       });
 
     socket.on('connectUser', (user: User) => {
