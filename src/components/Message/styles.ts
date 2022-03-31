@@ -19,13 +19,15 @@ export const MessageContainer = styled.div<MessageContainerType>`
 
 export const MessageContent = styled.div<MessageContainerType>`
     display: grid;
-    grid-template-columns:  ${props => props.userId === props.messageUserId ? `90% 10%` : `100%`};
+    grid-template-columns:  ${props => props.userId === props.messageUserId ? `75% 25%` : `100%`};
     grid-gap: 10px;
 `
 
 export const IconsContainer = styled.div`
     display: flex;
     flex-direction: row;
+    justify-content: flex-end;
+    padding-right: 20px;
     align-items: center;
     gap: 20px;
     svg {

@@ -6,7 +6,7 @@ import { useToken } from '../../context/TokenContext';
 import { useSocket } from '../../context/SocketContext';
 import { useNavigate } from 'react-router-dom';
 
-import { Container, Form, Menu, ChatContainer, OnlineUser, MessagesContainer } from './styles';
+import { Container, Form, Menu, ChatContainer, OnlineUser, MessagesContainer, Users } from './styles';
 
 import Input from '../../components/Input';
 import Button from '../../components/Button';
@@ -144,12 +144,12 @@ const Chat = () => {
     <Container>
       <Scrollbars>
         <Menu>
-          <div>
+          <Users>
             <p>Online Users</p>
             {connectedUsers.map((user: any) => (
               <OnlineUser key={user.id}>{user.username}</OnlineUser>
             ))}
-          </div>
+          </Users>
           <Button type="button" onClick={handleLogout}>
             Logout
           </Button>

@@ -25,6 +25,11 @@ export const Menu = styled.div`
   }
 `
 
+export const Users = styled.div`
+  display: flex;
+  flex-direction: column;
+`
+
 export const ChatContainer = styled.div`
   display: flex;
   flex-direction: column;
