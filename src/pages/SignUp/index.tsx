@@ -26,7 +26,7 @@ const SignUp = () => {
   const navigate = useNavigate();
   const { setToken, setUserId } = useToken();
 
-  const handleLogin = (e: any) => {
+  const handleSignUp = (e: any) => {
     e.preventDefault();
     api.post('/auth/signup', {
       username: username,
@@ -58,7 +58,7 @@ const SignUp = () => {
 
     return (
       <Container>
-        <Form onSubmit={ handleLogin }>
+        <Form onSubmit={ handleSignUp }>
           <Title>Sign Up</Title>
           <Input value={ username } onChange={ setUsername } placeholder='Username' />
           <Input type = 'email' value={ email } onChange={ setEmail } placeholder='Email' />
